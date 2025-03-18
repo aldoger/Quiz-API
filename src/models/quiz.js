@@ -1,4 +1,3 @@
-import { text } from "express"
 
 export const quizDasprog = [
     {

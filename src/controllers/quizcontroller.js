@@ -1,4 +1,4 @@
-import { quizDasprog, quizSisdig, quizPPL, quizAlin, quizStrukdat } from "../models/quiz.js"
+import { quizDasprog, quizSisdig, quizPPL, quizAlin, quizStrukdat } from "../models/quiz.js";
 
 function fisherYatesShuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -32,3 +32,4 @@ export const GetQuizStrukdat = (req, res) => {
     const Quiz = fisherYatesShuffle([...quizStrukdat]);
     res.status(200).json(Quiz);
 }
+

@@ -1,6 +1,12 @@
 import app from "./app.js";
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const port = 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+const port = process.env.PORT || 3000;
 
 const startserver =  () => {
     try{
