@@ -1,6 +1,7 @@
-import User from "../models/user"
+import User from "../models/user";
 
-const saveUser = async (req, res, next) => {
+
+export const saveUser = async (req, res, next) => {
 
     try{
         const user = await User.findOne({
@@ -19,4 +20,3 @@ const saveUser = async (req, res, next) => {
     }
 }
 
-export default saveUser;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { GetQuizAlin, GetQuizDasprog, GetQuizSisdig, GetQuizPPL, GetQuizStrukdat } from "../controllers/quizcontroller.js";
-import { Signin, Login } from "../controllers/usercontroller.js";
+import { signUp, logIn } from "../controllers/usercontroller.js";
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.get("/alin", GetQuizAlin);
 router.get("/sisdig", GetQuizSisdig);
 router.get("/strukdat", GetQuizStrukdat);
 
-router.post("/signin", Signin);
-router.post("/login", Login);
+router.post("/signin", signUp);
+router.post("/login", logIn);
 
 export default router;

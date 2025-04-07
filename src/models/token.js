@@ -19,7 +19,9 @@ const Token = sequelize.define("token", {
 
         token: {
             type: DataTypes.STRING,
-        }
+        },
+
+
     }, {timestamps: true}, 
 );
 

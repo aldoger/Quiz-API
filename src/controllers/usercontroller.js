@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Token from "../models/token.js";
 import sendingMail from "../middleware/email.js";
-import { v6 as uuidv6 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import User from "../models/user.js";
 
 
@@ -20,7 +20,7 @@ export const signUp = async (req, res) => {
         if(user){
             let setToken = await Token.create({
                 userId: user.id,
-                token: uuidv6(),
+                token: uuidv4(),
             });
 
             if(setToken){
@@ -51,18 +51,18 @@ export const signUp = async (req, res) => {
 export const verifyEmail = async (req, res) => {
     try{
 
-        const token = req.params.token;
-
         const userToken = await Token.findOne({
             where: {
-                userId: req.params.id
+                userId: req.params.id,
+                token: req.params.token
             },
         });
         console.log(userToken);
 
+
         if(!userToken){
             return res.status(400).send({
-                msg: "Your verification link may have expired. Please click on resend for verify your Email.",
+                msg: "Please verify your email first.",
             });
         }else{
 
@@ -87,7 +87,7 @@ export const verifyEmail = async (req, res) => {
                         },
                     }
                 );
-                console.log(update);
+                console.log(updated);
 
                 if(!updated){
                     return res.status(500).send({ msg: "Account cannot be verified by server" });
@@ -117,9 +117,7 @@ export const logIn = async (req, res) => {
 
             if(isSame){
 
-                const verirified = user.isVerified;
-
-                if(isVerified){
+                if(user.isVerified){
                     let token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, 
                         {
                             expiresIn: 1 * 24 * 60 * 60 * 1000,
@@ -135,7 +133,7 @@ export const logIn = async (req, res) => {
                     return res.status(401).send("User not verified");
                 }
             }else{
-                res.status(401).sned("Authentication failed");
+                res.status(401).send("Authentication failed");
             }
         }else{
             return res.status(401).send("Authentication failed");

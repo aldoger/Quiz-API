@@ -22,6 +22,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/photos', express.static('asset'));
 app.use('/', router);
 
-db.connect();
 
 export default app;
