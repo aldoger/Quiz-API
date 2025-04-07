@@ -6,7 +6,7 @@ import { v6 as uuidv6 } from "uuid";
 import User from "../models/user.js";
 
 
-export const Signup = async (req, res) => {
+export const signUp = async (req, res) => {
     try{
         const { email, password } = req.body;
 
@@ -79,25 +79,70 @@ export const verifyEmail = async (req, res) => {
                     .status(200)
                     .send("User has been already verified. Please Login");
             } else{
+                const updated = await User.update(
+                    { isVerified: true },
+                    {
+                        where: {
+                            id: userToken.userId,
+                        },
+                    }
+                );
+                console.log(update);
 
+                if(!updated){
+                    return res.status(500).send({ msg: "Account cannot be verified by server" });
+                }else{
+                    return res
+                        .status(200)
+                        .send("Your account has been successfully verified")
+                }
             }
         }
     }catch(err){
-
+        console.error(err);
     }
 }
 
-export const Login = async (req, res) => {
-    const { id } = req.body;
-   
-    const UserIndex = user.findIndex(u => u.id == id); 
+export const logIn = async (req, res) => {
+    try{
 
-    if (UserIndex === -1) {  
-        return res.status(403).json({ error: "Request denied" });
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+
+        console.log(user);
+
+        if(user){
+            const isSame = await bcrypt.compare(password, user.password);
+
+            if(isSame){
+
+                const verirified = user.isVerified;
+
+                if(isVerified){
+                    let token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, 
+                        {
+                            expiresIn: 1 * 24 * 60 * 60 * 1000,
+                        }
+                    );
+
+                    console.log("user", JSON.stringify(user, null, 2));
+                    console.log(token);
+
+                    return res.status(200).send({ msg: `Here is your key ${token}`});
+
+                }else{
+                    return res.status(401).send("User not verified");
+                }
+            }else{
+                res.status(401).sned("Authentication failed");
+            }
+        }else{
+            return res.status(401).send("Authentication failed");
+        }
+    }catch(err){
+        console.error(err);
     }
-
-    const token = GenerateToken(user[UserIndex].username); 
-
-    res.setHeader("Content-Type", "application/json");
-    res.status(202).json({ token });
 };
+
+export default [signUp, logIn, verifyEmail]
