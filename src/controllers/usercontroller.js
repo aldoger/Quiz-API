@@ -145,12 +145,15 @@ export const logIn = async (req, res) => {
 
         const { email, password } = req.body;
 
-        const coder = await Coder.findOne({ email });
+        console.log(email, password);
+
+        const coder = await Coder.findOne({ where: { email: email } });
 
         console.log(coder);
 
         if(coder){
             const isSame = await bcrypt.compare(password, coder.password);
+            console.log(isSame);
 
             if(isSame){
 
@@ -173,7 +176,7 @@ export const logIn = async (req, res) => {
                 res.status(401).send("Authentication failed");
             }
         }else{
-            return res.status(401).send("Authentication failed");
+            return res.status(401).send("Cannot find user");
         }
     }catch(err){
         console.error(err);
