@@ -1,4 +1,4 @@
-import User from "../models/user";
+import User from "../models/user.js";
 
 
 export const saveUser = async (req, res, next) => {
@@ -11,7 +11,7 @@ export const saveUser = async (req, res, next) => {
         });
         
         if(user){
-            return res.json(409).send("email already exist");
+            return res.status(409).json("email already exist");
         }
 
         next();

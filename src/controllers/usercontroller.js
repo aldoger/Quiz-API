@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import Token from "../models/token.js";
 import sendingMail from "../middleware/email.js";
 import { v4 as uuidv4 } from "uuid";
-import User from "../models/user.js";
+import Coder from "../models/user.js";
 
 
 export const signUp = async (req, res) => {
@@ -15,11 +15,11 @@ export const signUp = async (req, res) => {
             password: await bcrypt.hash(password, 5),
         };
 
-        const user = await User.create(data);
+        const coder = await Coder.create(data);
 
-        if(user){
+        if(coder){
             let setToken = await Token.create({
-                userId: user.id,
+                userId: coder.id,
                 token: uuidv4(),
             });
 
@@ -30,16 +30,16 @@ export const signUp = async (req, res) => {
                     subject: "Account Verification Link",
                     text: `Welcome to kode kreasi. Please verify your email by clicking
                     this link:
-                    http://localhost:5000/api/users/verify-email/${user.id}/${setToken.token}`
+                    http://localhost:5000/api/users/verify-email/${coder.id}/${setToken.token}`
                 });
 
             }else{
                 return res.status(400).send("token not created");
             }
 
-            console.log("user", JSON.stringify(user, null, 2));
+            console.log("user", JSON.stringify(coder, null, 2));
 
-            return res.status(201).send(user);
+            return res.status(201).send(coder);
         }else{
             return res.status(404).send("Details are not correct");
         }
@@ -66,20 +66,20 @@ export const verifyEmail = async (req, res) => {
             });
         }else{
 
-            const user = await User.findOne({ where: { id: req.params.id }});
+            const coder = await Coder.findOne({ where: { id: req.params.id }});
             
-            if(!user){
-                console.log(user);
+            if(!coder){
+                console.log(coder);
                 
                 return res.status(401).send({
                     msg: "We were unable to find a user for this verification. Please SignUp!"
                 });
-            }else if(user.isVerified){
+            }else if(coder.isVerified){
                 return res
                     .status(200)
                     .send("User has been already verified. Please Login");
             } else{
-                const updated = await User.update(
+                const updated = await coder.update(
                     { isVerified: true },
                     {
                         where: {
@@ -103,28 +103,65 @@ export const verifyEmail = async (req, res) => {
     }
 }
 
+export const sendVerification = async (req, res) => {
+    try{
+
+        const coder = await Coder.findOne({ where: { email: req.body.email }});
+
+        if(!coder){
+            return res.status(400).send({
+                msg: "Email not found",
+            });
+        }else{
+            const id = coder?.id;
+        
+            let setToken = await Token.update({
+                userId: coder.id,
+                token: uuidv4(),
+            });
+
+            if(setToken){
+                sendingMail({
+                    from: process.env.EMAIL_NAME,
+                    to: email,
+                    subject: "Account Verification Link",
+                    text: `Welcome to kode kreasi. Please verify your email by clicking
+                    this link:
+                    http://localhost:5000/api/users/verify-email/${id}/${setToken.token}`
+                });
+
+            }else{
+                return res.status(400).send("token not created");
+            }
+        }
+
+    }catch(err){
+
+    }
+}
+
 export const logIn = async (req, res) => {
     try{
 
         const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const coder = await Coder.findOne({ email });
 
-        console.log(user);
+        console.log(coder);
 
-        if(user){
-            const isSame = await bcrypt.compare(password, user.password);
+        if(coder){
+            const isSame = await bcrypt.compare(password, coder.password);
 
             if(isSame){
 
-                if(user.isVerified){
-                    let token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, 
+                if(coder.isVerified){
+                    let token = jwt.sign({ id: coder.id }, process.env.SECRET_KEY, 
                         {
                             expiresIn: 1 * 24 * 60 * 60 * 1000,
                         }
                     );
 
-                    console.log("user", JSON.stringify(user, null, 2));
+                    console.log("user", JSON.stringify(coder, null, 2));
                     console.log(token);
 
                     return res.status(200).send({ msg: `Here is your key ${token}`});

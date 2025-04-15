@@ -1,4 +1,3 @@
-import pg from 'pg'
 import { Sequelize } from 'sequelize';
 import path from 'path';
 import dotenv from 'dotenv'
