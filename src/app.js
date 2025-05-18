@@ -18,7 +18,6 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use('/photos', express.static('asset'));
 app.use('/', router);
 

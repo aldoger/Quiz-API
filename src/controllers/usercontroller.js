@@ -103,7 +103,7 @@ export const verifyEmail = async (req, res) => {
     }
 }
 
-export const sendVerification = async (req, res) => {
+export const resendVerification = async (req, res) => {
     try{
 
         const coder = await Coder.findOne({ where: { email: req.body.email }});
@@ -136,7 +136,7 @@ export const sendVerification = async (req, res) => {
         }
 
     }catch(err){
-
+        console.error(err)
     }
 }
 
@@ -158,7 +158,7 @@ export const logIn = async (req, res) => {
             if(isSame){
 
                 if(coder.isVerified){
-                    let token = jwt.sign({ id: coder.id }, process.env.SECRET_KEY, 
+                    let token = jwt.sign({ id: coder.id,  }, process.env.SECRET_KEY, 
                         {
                             expiresIn: 1 * 24 * 60 * 60 * 1000,
                         }
@@ -167,7 +167,7 @@ export const logIn = async (req, res) => {
                     console.log("user", JSON.stringify(coder, null, 2));
                     console.log(token);
 
-                    return res.status(200).send({ msg: `Here is your key ${token}`});
+                    return res.status(200).send({ token: `${token}`});
 
                 }else{
                     return res.status(401).send("User not verified");

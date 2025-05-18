@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import jwt from 'jsonwebtoken'
 
 
 export const saveUser = async (req, res, next) => {
@@ -20,3 +21,19 @@ export const saveUser = async (req, res, next) => {
     }
 }
 
+
+export const userAuthorization = (req, res, next) => {
+    const authHeader = req.header('Authorization');
+    if(authHeader && authHeader.startsWith('Bearer ')){
+        const token = authHeader.split(' ')[1];
+    }else{
+        console.log("No token found")
+    }
+
+    const result = jwt.verify(token, process.env.SECRET_KEY)
+    if(result){
+        next();
+    }else{
+        res.status(401).send({ msg: 'Unauthorized'});
+    }
+}

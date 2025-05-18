@@ -19,12 +19,6 @@ const Coder = sequelize.define("user", {
             allowNull: false,
         },
 
-        score: {
-            type: DataTypes.INTEGER,
-            unique: false,
-            allowNull: true,
-        },
-
         password: {
             type: DataTypes.STRING,
             allowNull: false,

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { GetQuizAlin, GetQuizDasprog, GetQuizSisdig, GetQuizPPL, GetQuizStrukdat } from "../controllers/quizcontroller.js";
-import { signUp, logIn, verifyEmail } from "../controllers/usercontroller.js";
+import { signUp, logIn, verifyEmail, resendVerification } from "../controllers/usercontroller.js";
 import { saveUser } from "../middleware/userAuth.js";
 
 const router = Router();
@@ -14,5 +14,6 @@ router.get("/strukdat", GetQuizStrukdat);
 router.post("/signin",saveUser, signUp);
 router.post("/login", logIn);
 router.post("/api/users/verify-email/:id/:token", verifyEmail);
+router.post("/resendtoken", resendVerification)
 
 export default router;
