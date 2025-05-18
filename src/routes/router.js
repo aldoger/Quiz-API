@@ -11,9 +11,9 @@ router.get("/alin", GetQuizAlin);
 router.get("/sisdig", GetQuizSisdig);
 router.get("/strukdat", GetQuizStrukdat);
 
-router.post("/signin",saveUser, signUp);
+router.post("/register",saveUser, signUp);
 router.post("/login", logIn);
-router.post("/api/users/verify-email/:id/:token", verifyEmail);
+router.get("/api/users/verify-email/:id/:token", verifyEmail);
 router.post("/resendtoken", resendVerification)
 
 export default router;

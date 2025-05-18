@@ -9,7 +9,7 @@ const app = express();
 app.use(
     cors(
         {
-            origin: `http://localhost:5000`,
+            origin: `https://kode-kreasi.vercel.app/`,
             credentials: true
         }
     )
