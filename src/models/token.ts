@@ -1,7 +1,18 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Token = sequelize.define("token", {
+export interface TokenAttributes {
+  id: number;
+  userId: number;
+  token: string;
+}
+
+export interface TokenCreationAttributes extends Optional<TokenAttributes, "id"> {}
+
+export interface TokenInstance extends Model<TokenAttributes, TokenCreationAttributes>, TokenAttributes {}
+
+
+const Token = sequelize.define<TokenInstance>("token", {
         id: {
             allowNull: false,
             autoIncrement: true,

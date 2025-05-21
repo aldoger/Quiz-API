@@ -4,9 +4,10 @@ import Token from "../models/token.js";
 import sendingMail from "../middleware/email.js";
 import { v4 as uuidv4 } from "uuid";
 import Coder from "../models/user.js";
+import { Request, Response } from "express";
+import { UserAuthRequest, UserResendRequest } from "../dto/userAuth.dto"
 
-
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Response) => {
     try{
         const { email, password } = req.body;
 
@@ -103,7 +104,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
     }
 }
 
-export const resendVerification = async (req: Request, res: Response) => {
+export const resendVerification = async (req: Request<any, any, UserResendRequest>, res: Response) => {
     try{
 
         const coder = await Coder.findOne({ where: { email: req.body.email }});
@@ -114,20 +115,21 @@ export const resendVerification = async (req: Request, res: Response) => {
             });
         }else{
             const id = coder?.id;
-        
-            let setToken = await Token.update({
-                userId: coder.id,
-                token: uuidv4(),
-            });
+            const newToken = uuidv4();
+                let setToken = await Token.update({
+                    token: newToken,
+                }, {
+                    where: { userId: id}
+                });
 
             if(setToken){
                 sendingMail({
                     from: process.env.EMAIL_NAME,
-                    to: email,
+                    to: req.body.email,
                     subject: "Account Verification Link",
                     text: `Welcome to kode kreasi. Please verify your email by clicking
                     this link:
-                    http://localhost:5000/api/users/verify-email/${id}/${setToken.token}`
+                    http://localhost:5000/api/users/verify-email/${id}/${newToken}`
                 });
 
             }else{
@@ -158,7 +160,7 @@ export const logIn = async (req: Request, res: Response) => {
             if(isSame){
 
                 if(coder.isVerified){
-                    let token = jwt.sign({ id: coder.id, email: coder.email, password: coder.password  }, process.env.SECRET_KEY, 
+                    let token = jwt.sign({ id: coder.id, email: coder.email, password: coder.password  }, process.env.SECRET_KEY as string, 
                         {
                             expiresIn: 1 * 24 * 60 * 60 * 1000,
                         }

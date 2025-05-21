@@ -1,7 +1,21 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
+import { Model, Optional } from "sequelize";
 
-const Coder = sequelize.define("user", {
+export interface CoderAttributes {
+  id: number;
+  email: string;
+  password: string;
+  isVerified: boolean;
+}
+
+export interface CoderCreationAttributes extends Optional<CoderAttributes, 'id' | 'isVerified'> {}
+
+export interface CoderInstance
+  extends Model<CoderAttributes, CoderCreationAttributes>,
+    CoderAttributes {}
+
+const Coder = sequelize.define<CoderInstance>("user", {
 
         id: {
             type: DataTypes.INTEGER,
