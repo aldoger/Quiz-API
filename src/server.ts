@@ -1,5 +1,5 @@
 import app from "./app.js";
-import sequelize from "./models/database.js";
+import sequelize from "./config/database.js";
 
 const port = process.env.STATUS == 'development' ? process.env.PORT : 8080;
 

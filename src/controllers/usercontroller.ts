@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import Coder from "../models/user.js";
 
 
-export const signUp = async (req, res) => {
+export const signUp = async (req: Request, res: Response) => {
     try{
         const { email, password } = req.body;
 
@@ -48,7 +48,7 @@ export const signUp = async (req, res) => {
     }
 };
 
-export const verifyEmail = async (req, res) => {
+export const verifyEmail = async (req: Request, res: Response) => {
     try{
 
         const userToken = await Token.findOne({
@@ -103,7 +103,7 @@ export const verifyEmail = async (req, res) => {
     }
 }
 
-export const resendVerification = async (req, res) => {
+export const resendVerification = async (req: Request, res: Response) => {
     try{
 
         const coder = await Coder.findOne({ where: { email: req.body.email }});
@@ -140,7 +140,7 @@ export const resendVerification = async (req, res) => {
     }
 }
 
-export const logIn = async (req, res) => {
+export const logIn = async (req: Request, res: Response) => {
     try{
 
         const { email, password } = req.body;
@@ -158,7 +158,7 @@ export const logIn = async (req, res) => {
             if(isSame){
 
                 if(coder.isVerified){
-                    let token = jwt.sign({ id: coder.id,  }, process.env.SECRET_KEY, 
+                    let token = jwt.sign({ id: coder.id, email: coder.email, password: coder.password  }, process.env.SECRET_KEY, 
                         {
                             expiresIn: 1 * 24 * 60 * 60 * 1000,
                         }
@@ -182,5 +182,6 @@ export const logIn = async (req, res) => {
         console.error(err);
     }
 };
+
 
 export default [signUp, logIn, verifyEmail]
