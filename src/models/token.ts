@@ -3,7 +3,7 @@ import sequelize from "../config/database.js";
 
 export interface TokenAttributes {
   id: number;
-  userId: number;
+  userId: string;
   token: string;
 }
 

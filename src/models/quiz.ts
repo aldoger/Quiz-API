@@ -2,32 +2,33 @@ import { DataTypes, Model, Optional } from "sequelize"
 import sequelize from "../config/database"
 
 
-type Opsi = {
+export type Opsi = {
     text: string,
     value: boolean,
 }
 
 
 export interface QuizAttribtes {
-    id: number,
-    id_mata_kuliah: number,
+    id: string,
+    id_mata_kuliah: string,
     judul_Soal: string,
-    opsi: Opsi[]
+    opsi: Opsi[],
+    src: string
 }
 
 export interface QuizCreationAttributes extends Optional<QuizAttribtes, "id"> {}
 
 export interface QuizInstance extends Model<QuizAttribtes, QuizCreationAttributes>, QuizAttribtes {}
 
-const Quiz = sequelize.define("quiz", {
+const Quiz = sequelize.define("quizes", {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
+        unique: true
     },
     id_mata_kuliah: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         onUpdate: "cascade",
         onDelete: "cascade",
@@ -41,7 +42,12 @@ const Quiz = sequelize.define("quiz", {
     opsi: {
         type: DataTypes.JSON,
         allowNull: true,
+    },
+    src: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
     }
-});
+}, { timestamps: true });
 
 export default Quiz;

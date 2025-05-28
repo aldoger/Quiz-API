@@ -3,7 +3,7 @@ import sequelize from "../config/database.js";
 import { Model, Optional } from "sequelize";
 
 export interface CoderAttributes {
-  id: number;
+  id: string;
   email: string;
   password: string;
   isVerified: boolean;
@@ -15,12 +15,11 @@ export interface CoderInstance
   extends Model<CoderAttributes, CoderCreationAttributes>,
     CoderAttributes {}
 
-const Coder = sequelize.define<CoderInstance>("user", {
+const Coder = sequelize.define<CoderInstance>("users", {
 
         id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,        
+            type: DataTypes.STRING,
+            primaryKey: true,      
             allowNull: false,
             unique: true,
         },

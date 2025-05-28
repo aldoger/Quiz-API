@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import Coder from "../models/user.js";
 import { Request, Response } from "express";
 import { UserAuthRequest, UserResendRequest } from "../dto/userAuth.dto"
+import { generateShortId } from "../utils/shortidgenerator"
 
 export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Response) => {
     try{
@@ -16,7 +17,7 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
             password: await bcrypt.hash(password, 5),
         };
 
-        const coder = await Coder.create(data);
+        const coder = await Coder.create({...data, id: generateShortId(8)});
 
         if(coder){
             let setToken = await Token.create({
@@ -26,7 +27,7 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
 
             if(setToken){
                 sendingMail({
-                    from: process.env.EMAIL_NAME,
+                    from: process.env.EMAIL_NAME as string,
                     to: email,
                     subject: "Account Verification Link",
                     text: `Welcome to kode kreasi. Please verify your email by clicking
@@ -44,8 +45,8 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
         }else{
             return res.status(404).send("Details are not correct");
         }
-    }catch(err){
-        console.log(err);
+    }catch(e: unknown){
+        console.log(e);
     }
 };
 
@@ -99,8 +100,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                 }
             }
         }
-    }catch(err){
-        console.error(err);
+    }catch(e: unknown){
+        console.error(e);
     }
 }
 
@@ -124,7 +125,7 @@ export const resendVerification = async (req: Request<any, any, UserResendReques
 
             if(setToken){
                 sendingMail({
-                    from: process.env.EMAIL_NAME,
+                    from: process.env.EMAIL_NAME as string,
                     to: req.body.email,
                     subject: "Account Verification Link",
                     text: `Welcome to kode kreasi. Please verify your email by clicking
@@ -137,8 +138,8 @@ export const resendVerification = async (req: Request<any, any, UserResendReques
             }
         }
 
-    }catch(err){
-        console.error(err)
+    }catch(e: unknown){
+        console.error(e)
     }
 }
 
@@ -180,8 +181,8 @@ export const logIn = async (req: Request, res: Response) => {
         }else{
             return res.status(401).send("Cannot find user");
         }
-    }catch(err){
-        console.error(err);
+    }catch(e: unknown){
+        console.error(e);
     }
 };
 
