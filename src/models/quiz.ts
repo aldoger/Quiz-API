@@ -41,7 +41,7 @@ const Quiz = sequelize.define("quizes", {
     },
     opsi: {
         type: DataTypes.JSON,
-        allowNull: true,
+        allowNull: false,
     },
     src: {
         type: DataTypes.STRING,

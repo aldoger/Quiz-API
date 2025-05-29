@@ -13,7 +13,8 @@ export const saveUser = async (req: Request, res: Response, next: NextFunction) 
         });
         
         if(user){
-            return res.status(409).json("email already exist");
+            res.status(409).json("email already exist");
+            return;
         }
 
         next();
@@ -34,9 +35,11 @@ export const userAuthorization = (req: Request, res: Response, next: NextFunctio
             next();
         } catch (err) {
             console.error("JWT Error:", err);  
-            return res.status(401).send({ msg: 'Invalid token' });
+            res.status(401).send({ msg: 'Invalid token' });
+            return;
         }
     } else {
-        return res.status(401).send({ msg: 'Authorization header missing or malformed' });
+        res.status(401).send({ msg: 'Authorization header missing or malformed' });
+        return;
     }
 };

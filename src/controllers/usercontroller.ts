@@ -36,14 +36,17 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
                 });
 
             }else{
-                return res.status(400).send("token not created");
+                res.status(400).send("token not created");
+                return;
             }
 
             console.log("user", JSON.stringify(coder, null, 2));
 
-            return res.status(201).send(coder);
+            res.status(201).send(coder);
+            return;
         }else{
-            return res.status(404).send("Details are not correct");
+            res.status(404).send("Details are not correct");
+            return;
         }
     }catch(e: unknown){
         console.log(e);
@@ -63,9 +66,10 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
 
         if(!userToken){
-            return res.status(400).send({
+            res.status(400).send({
                 msg: "Please verify your email first.",
             });
+            return;
         }else{
 
             const coder = await Coder.findOne({ where: { id: req.params.id }});
@@ -73,13 +77,15 @@ export const verifyEmail = async (req: Request, res: Response) => {
             if(!coder){
                 console.log(coder);
                 
-                return res.status(401).send({
+                res.status(401).send({
                     msg: "We were unable to find a user for this verification. Please SignUp!"
                 });
+                return;
             }else if(coder.isVerified){
-                return res
+                 res
                     .status(200)
                     .send("User has been already verified. Please Login");
+                return;
             } else{
                 const updated = await coder.update(
                     { isVerified: true },
@@ -92,11 +98,13 @@ export const verifyEmail = async (req: Request, res: Response) => {
                 console.log(updated);
 
                 if(!updated){
-                    return res.status(500).send({ msg: "Account cannot be verified by server" });
+                    res.status(500).send({ msg: "Account cannot be verified by server" });
+                    return;
                 }else{
-                    return res
+                    res
                         .status(200)
-                        .send("Your account has been successfully verified")
+                        .send("Your account has been successfully verified");
+                    return;
                 }
             }
         }
@@ -111,9 +119,10 @@ export const resendVerification = async (req: Request<any, any, UserResendReques
         const coder = await Coder.findOne({ where: { email: req.body.email }});
 
         if(!coder){
-            return res.status(400).send({
+            res.status(400).send({
                 msg: "Email not found",
             });
+            return;
         }else{
             const id = coder?.id;
             const newToken = uuidv4();
@@ -134,7 +143,8 @@ export const resendVerification = async (req: Request<any, any, UserResendReques
                 });
 
             }else{
-                return res.status(400).send("token not created");
+                res.status(400).send("token not created");
+                return;
             }
         }
 
@@ -170,16 +180,19 @@ export const logIn = async (req: Request, res: Response) => {
                     console.log("user", JSON.stringify(coder, null, 2));
                     console.log(token);
 
-                    return res.status(200).send({ token: `${token}`});
-
+                    res.status(200).send({ token: `${token}`});
+                    return;
                 }else{
-                    return res.status(401).send("User not verified");
+                    res.status(401).send("User not verified");
+                    return;
                 }
             }else{
                 res.status(401).send("Authentication failed");
+                return;
             }
         }else{
-            return res.status(401).send("Cannot find user");
+            res.status(401).send("Cannot find user");
+            return;
         }
     }catch(e: unknown){
         console.error(e);
