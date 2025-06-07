@@ -14,13 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SeedQuiz = void 0;
 const quiz_1 = __importDefault(require("../models/quiz"));
+const subject_1 = __importDefault(require("../models/subject"));
 const shortidgenerator_1 = require("../utils/shortidgenerator");
 const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
     console.info("Seeding quiz...");
+    const dasprogId = yield subject_1.default.findOne({ where: { mata_kuliah: "Dasar Pemrograman" } });
+    const sisdigId = yield subject_1.default.findOne({ where: { mata_kuliah: "Sistem Digital" } });
+    const pplId = yield subject_1.default.findOne({ where: { mata_kuliah: "Pengembangan Perangkat Lunak" } });
     const quizData = [
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId === null || dasprogId === void 0 ? void 0 : dasprogId.id,
             judul_soal: "Apa output dari program ini?",
             opsi: [
                 { text: "Tidak ada", value: true },
@@ -31,7 +35,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId === null || dasprogId === void 0 ? void 0 : dasprogId.id,
             judul_soal: "Apa fungsi dari header ini?",
             opsi: [
                 { text: "0", value: true },
@@ -42,7 +46,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId === null || dasprogId === void 0 ? void 0 : dasprogId.id,
             judul_soal: "Fungsi untuk menulis 'Hello World!'",
             opsi: [
                 { text: "print('hello world')", value: false },
@@ -53,7 +57,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId === null || dasprogId === void 0 ? void 0 : dasprogId.id,
             judul_soal: "Tipe data apa yang digunakan untuk bilangan bulat?",
             opsi: [
                 { text: "double", value: false },
@@ -64,7 +68,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId === null || dasprogId === void 0 ? void 0 : dasprogId.id,
             judul_soal: "Perintah apa yang digunakan untuk menginput data?",
             opsi: [
                 { text: "printf()", value: false },
@@ -75,7 +79,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId === null || sisdigId === void 0 ? void 0 : sisdigId.id,
             judul_soal: "Ubah angka biner menjadi decimal",
             opsi: [
                 { text: "15", value: true },
@@ -86,7 +90,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId === null || sisdigId === void 0 ? void 0 : sisdigId.id,
             judul_soal: "Ubah angka oktal menjadi biner",
             opsi: [
                 { text: "10000", value: true },
@@ -97,7 +101,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId === null || sisdigId === void 0 ? void 0 : sisdigId.id,
             judul_soal: "Ubah angka heksadesimal ke biner",
             opsi: [
                 { text: "001110", value: false },
@@ -108,7 +112,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId === null || sisdigId === void 0 ? void 0 : sisdigId.id,
             judul_soal: "Apa hasil dari pertambahan bilangan biner tersebut",
             opsi: [
                 { text: "101", value: false },
@@ -119,7 +123,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId === null || pplId === void 0 ? void 0 : pplId.id,
             judul_soal: "Apa kepanjangan SDLC?",
             opsi: [
                 { text: "Software Development Life Cycle", value: true },
@@ -130,7 +134,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId === null || pplId === void 0 ? void 0 : pplId.id,
             judul_soal: "Gambar ini termasuk process flow apa?",
             opsi: [
                 { text: "Linier", value: true },
@@ -141,7 +145,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId === null || pplId === void 0 ? void 0 : pplId.id,
             judul_soal: "Berikut jenis process flow(Kecuali)",
             opsi: [
                 { text: "Parallel", value: false },
@@ -152,7 +156,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId === null || pplId === void 0 ? void 0 : pplId.id,
             judul_soal: "Contoh process flow Linier",
             opsi: [
                 { text: "Prototyping", value: false },
@@ -163,7 +167,7 @@ const SeedQuiz = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         {
             id: (0, shortidgenerator_1.generateShortId)(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId === null || pplId === void 0 ? void 0 : pplId.id,
             judul_soal: "Definisi Iterative adalah...",
             opsi: [
                 { text: "Menjalankan kegiatan sebelum melanjutkan yang berikutnya", value: true },

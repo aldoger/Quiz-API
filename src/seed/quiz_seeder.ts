@@ -1,14 +1,20 @@
 import Quiz, { QuizAttribtes } from "../models/quiz";
+import Subject from "../models/subject";
 import { generateShortId } from "../utils/shortidgenerator";
 
 
 export const SeedQuiz = async () => {
     
     console.info("Seeding quiz...");
+
+    const dasprogId = await Subject.findOne({ where: { mata_kuliah: "Dasar Pemrograman"}});
+    const sisdigId = await Subject.findOne({ where: { mata_kuliah: "Sistem Digital"}});
+    const pplId = await Subject.findOne({ where: { mata_kuliah: "Pengembangan Perangkat Lunak"}});
+
     const quizData: QuizAttribtes[] = [
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId?.id as string,
             judul_soal: "Apa output dari program ini?",
             opsi: [
                 { text: "Tidak ada", value: true },
@@ -19,7 +25,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId?.id as string,
             judul_soal: "Apa fungsi dari header ini?",
             opsi: [
                 { text: "0", value: true },
@@ -30,7 +36,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId?.id as string,
             judul_soal: "Fungsi untuk menulis 'Hello World!'",
             opsi: [
                 { text: "print('hello world')", value: false },
@@ -41,7 +47,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId?.id as string,
             judul_soal: "Tipe data apa yang digunakan untuk bilangan bulat?",
             opsi: [
                 { text: "double", value: false },
@@ -52,7 +58,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ezs2r$",
+            id_mata_kuliah: dasprogId?.id as string,
             judul_soal: "Perintah apa yang digunakan untuk menginput data?",
             opsi: [
                 { text: "printf()", value: false },
@@ -63,7 +69,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId?.id as string,
             judul_soal: "Ubah angka biner menjadi decimal",
             opsi: [
                 { text: "15", value: true },
@@ -74,7 +80,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId?.id as string,
             judul_soal: "Ubah angka oktal menjadi biner",
             opsi: [
                 { text: "10000", value: true },
@@ -85,7 +91,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId?.id as string,
             judul_soal: "Ubah angka heksadesimal ke biner",
             opsi: [
                 { text: "001110", value: false },
@@ -96,7 +102,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "$1y2so",
+            id_mata_kuliah: sisdigId?.id as string,
             judul_soal: "Apa hasil dari pertambahan bilangan biner tersebut",
             opsi: [
                 { text: "101", value: false },
@@ -107,7 +113,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId?.id as string,
             judul_soal: "Apa kepanjangan SDLC?",
             opsi: [
                 { text: "Software Development Life Cycle", value: true },
@@ -118,7 +124,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId?.id as string,
             judul_soal: "Gambar ini termasuk process flow apa?",
             opsi: [
                 { text: "Linier", value: true },
@@ -129,7 +135,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId?.id as string,
             judul_soal: "Berikut jenis process flow(Kecuali)",
             opsi: [
                 { text: "Parallel", value: false },
@@ -140,7 +146,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId?.id as string,
             judul_soal: "Contoh process flow Linier",
             opsi: [
                 { text: "Prototyping", value: false },
@@ -151,7 +157,7 @@ export const SeedQuiz = async () => {
         },
         {
             id: generateShortId(13),
-            id_mata_kuliah: "ft3zq6",
+            id_mata_kuliah: pplId?.id as string,
             judul_soal: "Definisi Iterative adalah...",
             opsi: [
                 { text: "Menjalankan kegiatan sebelum melanjutkan yang berikutnya", value: true },
