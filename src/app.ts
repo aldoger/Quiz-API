@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import router from "./routes/router";
 import bodyParser from "body-parser";
 import cors from 'cors'
@@ -20,5 +20,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/photos', express.static('asset'));
 app.use('/', router);
 
+app.get("/ping", function(req: Request, res: Response) {
+    res.json("ping");
+    return;
+});
 
 export default app;
