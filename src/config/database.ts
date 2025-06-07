@@ -16,7 +16,8 @@ if (process.env.STATUS === 'development') {
     port: Number(process.env.DATABASE_PORT),
   });
 } else {
-  sequelize = new Sequelize(process.env.DATABASE_URL as string, {
+  const databasURL = process.env.DATABASE_URL as string;
+  sequelize = new Sequelize(databasURL, {
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
