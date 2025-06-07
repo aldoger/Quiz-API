@@ -11,16 +11,16 @@ export type Opsi = {
 export interface QuizAttribtes {
     id: string,
     id_mata_kuliah: string,
-    judul_Soal: string,
+    judul_soal: string,
     opsi: Opsi[],
-    src: string
+    src: string | undefined
 }
 
-export interface QuizCreationAttributes extends Optional<QuizAttribtes, "id"> {}
+export interface QuizCreationAttributes extends Optional<QuizAttribtes, "id" | "src"> {}
 
 export interface QuizInstance extends Model<QuizAttribtes, QuizCreationAttributes>, QuizAttribtes {}
 
-const Quiz = sequelize.define("quizes", {
+const Quiz = sequelize.define<QuizInstance>("quizes", {
     id: {
         type: DataTypes.STRING,
         allowNull: false,

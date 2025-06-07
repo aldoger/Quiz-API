@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
+    "target": "es2016",
+    "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
   },
-  "include": ["src/server.ts", "types", "express.d.ts"],
+  "include": ["src", "src/server.ts", "src/**/*"],
   "exclude": ["node_modules"]
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import User from "../models/user.js";
+import User from "../models/user";
 import jwt from 'jsonwebtoken'
-
+import { MyJWTPayload } from "../utils/myJWTPayload";
 
 export const saveUser = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -31,7 +31,7 @@ export const userAuthorization = (req: Request, res: Response, next: NextFunctio
         const token = authHeader.split(' ')[1];
         try {
             const result = jwt.verify(token, process.env.SECRET_KEY as string);
-            req.user = result; 
+            req.user = result as MyJWTPayload; 
             next();
         } catch (err) {
             console.error("JWT Error:", err);  
@@ -43,3 +43,14 @@ export const userAuthorization = (req: Request, res: Response, next: NextFunctio
         return;
     }
 };
+
+export const allowAdmin = (req: Request, res: Response, next: NextFunction) => {
+    const admin = req.user as MyJWTPayload
+
+    if(admin.email != "nainggolanben12@gmail.com"){
+        res.status(403).json({msg: "Forbidden"});
+        return;
+    };
+
+    next();
+}

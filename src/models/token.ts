@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../config/database";
 
 export interface TokenAttributes {
   id: number;
@@ -21,7 +21,7 @@ const Token = sequelize.define<TokenInstance>("token", {
         },
 
         userId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             onUpdate: "cascade",
             onDelete: "cascade",

@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import Token from "../models/token.js";
-import sendingMail from "../middleware/email.js";
+import Token from "../models/token";
+import sendingMail from "../middleware/email";
 import { v4 as uuidv4 } from "uuid";
-import Coder from "../models/user.js";
+import Coder from "../models/user";
 import { Request, Response } from "express";
 import { UserAuthRequest, UserResendRequest } from "../dto/userAuth.dto"
 import { generateShortId } from "../utils/shortidgenerator"
@@ -11,7 +11,6 @@ import { generateShortId } from "../utils/shortidgenerator"
 export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Response) => {
     try{
         const { email, password } = req.body;
-
         const data = {
             email,
             password: await bcrypt.hash(password, 5),
@@ -40,8 +39,6 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
                 return;
             }
 
-            console.log("user", JSON.stringify(coder, null, 2));
-
             res.status(201).send(coder);
             return;
         }else{
@@ -62,7 +59,6 @@ export const verifyEmail = async (req: Request, res: Response) => {
                 token: req.params.token
             },
         });
-        console.log(userToken);
 
 
         if(!userToken){
@@ -158,11 +154,7 @@ export const logIn = async (req: Request, res: Response) => {
 
         const { email, password } = req.body;
 
-        console.log(email, password);
-
         const coder = await Coder.findOne({ where: { email: email } });
-
-        console.log(coder);
 
         if(coder){
             const isSame = await bcrypt.compare(password, coder.password);
@@ -171,9 +163,9 @@ export const logIn = async (req: Request, res: Response) => {
             if(isSame){
 
                 if(coder.isVerified){
-                    let token = jwt.sign({ id: coder.id, email: coder.email, password: coder.password  }, process.env.SECRET_KEY as string, 
+                    let token = jwt.sign({ id: coder.id, email: coder.email  }, process.env.SECRET_KEY as string, 
                         {
-                            expiresIn: 1 * 24 * 60 * 60 * 1000,
+                            expiresIn: '1d',
                         }
                     );
 

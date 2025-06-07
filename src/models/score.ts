@@ -12,7 +12,7 @@ export interface ScoreCreationAttribute extends Optional<ScoreAttribute, "id" | 
 
 export interface ScoreInstance extends Model<ScoreAttribute, ScoreCreationAttribute>, ScoreAttribute {}
 
-const Score = sequelize.define("scores", {
+const Score = sequelize.define<ScoreInstance>("scores", {
     id: {
         type: DataTypes.STRING,
         primaryKey: true,
