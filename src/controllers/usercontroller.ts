@@ -31,7 +31,7 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
                     subject: "Account Verification Link",
                     text: `Welcome to kode kreasi. Please verify your email by clicking
                     this link:
-                    ${process.env.PRODUCTION_URL}/${coder.id}/${setToken.token}`
+                    ${process.env.PRODUCTION_URL}/api/users/verify-email/${coder.id}/${setToken.token}`
                 });
 
             }else{
@@ -135,7 +135,7 @@ export const resendVerification = async (req: Request<any, any, UserResendReques
                     subject: "Account Verification Link",
                     text: `Welcome to kode kreasi. Please verify your email by clicking
                     this link:
-                    ${process.env.PRODUCTION_URL}/${id}/${newToken}`
+                    $${process.env.PRODUCTION_URL}/api/users/verify-email/${id}/${newToken}`
                 });
 
             }else{
