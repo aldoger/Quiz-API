@@ -9,7 +9,7 @@ const app = express();
 app.use(
     cors(
         {
-            origin: ["http://localhost:3000", "https://kode-kreasi.vercel.app"],
+            origin: ["http://localhost:3000", "https://kode-kreasi.vercel.app", "https://quihub-frontend.vercel.app/"],
             credentials: true,
         }
     )
