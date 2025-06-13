@@ -12,10 +12,16 @@ interface UserHighScoreData {
  
 export const updateUserScore = async (req: Request<any, any, UserScoreReq>, res: Response<any, UserScoreRes>) => {
     try{
+
+        if(req.body.id_subject == null || req.body.id_subject == "") {
+            res.status(400).json({ msg: "missing id subject"})
+            return;
+        }
+
         const user = req.user as MyJWTPayload
         
         const userScore = await Score.findOne({ where: { id_user: user.id }});
-        console.log(userScore);
+        
 
         if(!userScore){
             const newUserScore = await Score.create({ id: generateShortId(12), id_user: user.id, id_subject: req.body.id_subject, score: req.body.score });
