@@ -15,7 +15,7 @@ export const updateUserScore = async (req: Request<any, any, UserScoreReq>, res:
         
         const user = req.user as MyJWTPayload
         
-        const userScore = await Score.findOne({ where: { id_user: user.id }});
+        const userScore = await Score.findOne({ where: { id_user: user.id, id_subject: req.body.id_subject }});
         
 
         if(!userScore){
