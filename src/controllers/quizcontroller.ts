@@ -24,6 +24,7 @@ export const addQuiz = async (req: Request<any, any, AddQuizRequest>, res: Respo
         }
     }catch(e: unknown){
         console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 }
 
@@ -43,5 +44,6 @@ export const getQuizByIdSubject = async (req: Request<any, GetQuizByIdSubject>, 
         return;
     }catch(e: unknown){
         console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 }

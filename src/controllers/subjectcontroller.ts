@@ -20,6 +20,7 @@ export const addSubject = async (req: Request<any, any, AddSubjectRequest>, res:
         }
     }catch(e:  unknown){
         console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 } 
 
@@ -37,5 +38,6 @@ export const getAllSubject = async (req: Request, res: Response) => {
         }
     }catch(e: unknown){
         console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 }

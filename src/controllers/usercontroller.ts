@@ -46,7 +46,8 @@ export const signUp = async (req: Request<any, any, UserAuthRequest>, res: Respo
             return;
         }
     }catch(e: unknown){
-        console.log(e);
+        console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 };
 
@@ -106,6 +107,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
         }
     }catch(e: unknown){
         console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 }
 
@@ -145,7 +147,8 @@ export const resendVerification = async (req: Request<any, any, UserResendReques
         }
 
     }catch(e: unknown){
-        console.error(e)
+        console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 }
 
@@ -158,7 +161,6 @@ export const logIn = async (req: Request, res: Response) => {
 
         if(coder){
             const isSame = await bcrypt.compare(password, coder.password);
-            console.log(isSame);
 
             if(isSame){
 
@@ -168,9 +170,6 @@ export const logIn = async (req: Request, res: Response) => {
                             expiresIn: '1d',
                         }
                     );
-
-                    console.log("user", JSON.stringify(coder, null, 2));
-                    console.log(token);
 
                     res.status(200).send({ token: `${token}`});
                     return;
@@ -188,8 +187,27 @@ export const logIn = async (req: Request, res: Response) => {
         }
     }catch(e: unknown){
         console.error(e);
+        res.status(500).json({ msg: "Internal server error" });
     }
 };
 
+export const Me = async (req: Request, res: Response) => {
+    const authHeader = req.header('Authorization');
 
-export default [signUp, logIn, verifyEmail]
+    if(authHeader && authHeader.startsWith('Bearer ')){
+        const token = authHeader.split(' ')[1];
+        try{
+            const payload = jwt.decode(token);
+            res.status(200).json({ payload });
+            return;
+        }catch(e: unknown){
+            console.error("JWT Error:", e);  
+            res.status(401).send({ msg: 'Invalid token' });
+            return;
+        }
+    } else {
+        res.status(401).send({ msg: 'Authorization header missing or malformed' });
+        return;
+    }
+}
+

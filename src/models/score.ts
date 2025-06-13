@@ -3,7 +3,7 @@ import sequelize from "../config/database";
 
 export interface ScoreAttribute {
     id: string,
-    id_quiz: string,
+    id_subject: string,
     id_user: string,
     score: number
 }
@@ -20,12 +20,12 @@ const Score = sequelize.define<ScoreInstance>("scores", {
         unique: true
     },
     
-    id_quiz: {
+    id_subject: {
         type: DataTypes.STRING,
         allowNull: false,
         onDelete: "cascade",
         onUpdate: "cascade",
-        references: { model: "quizes", key: "id" }
+        references: { model: "subjects", key: "id" }
     },
 
     id_user: {

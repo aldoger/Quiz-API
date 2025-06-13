@@ -1,14 +1,14 @@
 
 export interface UserScoreReq {
     score: number
-    id_quiz: string
+    id_subject: string
 }
 
 export interface UserScoreRes {
     score: number
-    id_quiz: string,
+    id_subject: string,
 }
 
 export interface GetUserHighestScore {
-    id_quiz: string
+    id_subject: string
 }
